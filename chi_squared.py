@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import print_function
+from __future__ import print_function, division
 
 from collections import Counter
 
@@ -36,12 +36,26 @@ def chi_square_test(freq):
     print(p)
 
 
+def chi_calc(freq):
+    """
+    chi-square calculation from first principles
+    Assumed that expected distribution is flat.
+    """
+    n = len(freq)
+    total = sum(freq.values())
+    expected = total / n
+    chi_iter = (x - expected for x in freq.values())
+    print(sum(c * c / expected for c in chi_iter))
+
+
 def main():
     loansData = load_data()
     clean_data(loansData)
     freq = data_frequency(loansData)
     graph_loans(freq)
     chi_square_test(freq)
+    print(len(freq))
+    print(freq.most_common(1))
 
 
 if __name__ == '__main__':
